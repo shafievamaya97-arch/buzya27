@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BUZYA_27 // PRIVATE BUILD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header class="topbar">
+      <span>BUZYA_27</span>
+      <span id="status">OFFLINE</span>
+    </header>
+
+    <section id="screen-lock" class="screen active">
+
+      <div class="eyebrow">
+        PRIVATE REPOSITORY // PERSONAL BUILD
+      </div>
+
+      <h1>Access required.</h1>
+
+      <p class="lead">
+        Этот проект создан специально для одного backend-разработчика.
+      </p>
+
+      <p class="lead muted">
+        This project was built for one backend developer only.
+      </p>
+
+      <div class="access-card">
+
+        <label for="accessCode">
+          ACCESS CODE
+        </label>
+
+        <div class="input-row">
+
+          <input
+            id="accessCode"
+            type="password"
+            placeholder="••••••••"
+          >
+
+          <button id="unlockBtn">
+            UNLOCK
+          </button>
+
+        </div>
+
+        <p class="tiny">
+          Подсказка: прозвище + возраст, без пробела.
+        </p>
+
+        <p id="lockError" class="error"></p>
+
+      </div>
+
+    </section>
+
+    <section id="screen-boot" class="screen">
+
+      <div class="eyebrow">
+        BOOT SEQUENCE
+      </div>
+
+      <pre id="bootLog" class="terminal"></pre>
+
+      <button id="continueBtn" class="hidden">
+        CONTINUE
+      </button>
+
+    </section>
+
+    <section id="screen-level1" class="screen">
+
+      <div class="eyebrow">
+        LEVEL 01 // IDENTITY CHECK
+      </div>
+
+      <h2>
+        Докажи, что это действительно ты.
+      </h2>
+
+      <div class="question">
+
+        <span>01</span>
+
+        <div>
+
+          <p>
+            Твоё направление в разработке.
+          </p>
+
+          <input
+            class="answer"
+            data-answer="BACKEND|БЭКЕНД|БЕКЕНД"
+            placeholder="answer"
+          >
+
+        </div>
+
+      </div>
+
+      <div class="question">
+
+        <span>02</span>
+
+        <div>
+
+          <p>
+            Как я тебя называю.
+          </p>
+
+          <input
+            class="answer"
+            data-answer="БУЗЯ|BUZYA"
+            placeholder="answer"
+          >
+
+        </div>
+
+      </div>
+
+      <div class="question">
+
+        <span>03</span>
+
+        <div>
+
+          <p>
+            Новый уровень твоей версии.
+          </p>
+
+          <input
+            class="answer"
+            data-answer="27"
+            placeholder="answer"
+          >
+
+        </div>
+
+      </div>
+
+      <button
+        class="next-btn"
+        data-check="screen-level1"
+        data-next="screen-level2"
+      >
+        RUN CHECK
+      </button>
+
+      <p class="message"></p>
+
+    </section>
+
+    <section id="screen-level2" class="screen">
+
+      <div class="eyebrow">
+        LEVEL 02 // DEBUG MODE
+      </div>
+
+      <h2>
+        Найди правильные ответы.
+      </h2>
+
+      <div class="choice-block" data-correct="b">
+
+        <p>
+          Что обычно говорит разработчик, когда что-то перестало работать?
+        </p>
+
+        <button data-choice="a">
+          Я всё сломал.
+        </button>
+
+        <button data-choice="b">
+          У меня работало.
+        </button>
+
+        <button data-choice="c">
+          Это магия.
+        </button>
+
+      </div>
+
+      <div class="choice-block" data-correct="c">
+
+        <p>
+          Что важнее в этом проекте?
+        </p>
+
+        <button data-choice="a">
+          Количество строк кода.
+        </button>
+
+        <button data-choice="b">
+          Архитектура.
+        </button>
+
+        <button data-choice="c">
+          То, ради кого он создан.
+        </button>
+
+      </div>
+
+      <button
+        class="next-btn"
+        data-choice-check="true"
+        data-next="screen-level3"
+      >
+        COMMIT ANSWERS
+      </button>
+
+      <p class="message"></p>
+
+    </section>
+
+    <section id="screen-level3" class="screen">
+
+      <div class="eyebrow">
+        LEVEL 03 // FINAL KEY
+      </div>
+
+      <h2>
+        Последняя команда.
+      </h2>
+
+      <p class="lead">
+        Введи команду, после которой всё начинается.
+      </p>
+
+      <div class="command-box">
+
+        <span>$</span>
+
+        <input
+          id="finalCommand"
+          placeholder="type command"
+        >
+
+      </div>
+
+      <button id="finalRunBtn">
+        RUN
+      </button>
+
+      <p id="finalError" class="message"></p>
+
+    </section>
+
+    <section id="screen-final" class="screen final-screen">
+
+      <div class="eyebrow">
+        BUILD COMPLETED
+      </div>
+
+      <div class="success-mark">
+        ACCESS GRANTED
+      </div>
+
+      <div class="final-copy">
+
+        <p>
+          Я не умею обещать идеальную историю
+          и не знаю, что будет через много лет.
+          Но я точно знаю одно:
+          ты стал для меня очень близким человеком.
+        </p>
+
+        <p class="muted">
+          I cannot promise a perfect story,
+          and I do not know what the future will look like.
+          But I know one thing for sure:
+          you have become one of the closest people in my life.
+        </p>
+
+      </div>
+
+      <div class="gift-panel">
+
+        <span>
+          FINAL TASK
+        </span>
+
+        <strong>
+          Проверь шкафчик.
+        </strong>
+
+        <p>
+          Твой подарок уже там.
+        </p>
+
+        <small>
+          Check the locker.
+          Your gift is waiting for you.
+        </small>
+
+      </div>
+
+      <div class="signature">
+
+        Happy 27, Бузя.
+
+        <br>
+
+        <span>
+          // From Maya
+        </span>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
