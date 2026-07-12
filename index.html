@@ -1,324 +1,536 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BUZYA_27 // PRIVATE BUILD</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUZYA 27</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #050505;
+      color: #f5f5f5;
+      font-family: Consolas, Monaco, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      min-height: 600px;
+      background: #0a0a0a;
+      border: 1px solid #292929;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+      border-bottom: 1px solid #292929;
+      color: #888;
+      font-size: 13px;
+    }
+
+    .logo,
+    .green {
+      color: #d8ff3e;
+    }
+
+    .screen {
+      display: none;
+      padding: 45px;
+      min-height: 550px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    h1 {
+      font-family: Arial, sans-serif;
+      font-size: 54px;
+      margin: 20px 0;
+    }
+
+    h2 {
+      font-family: Arial, sans-serif;
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+
+    p {
+      line-height: 1.7;
+    }
+
+    .small {
+      color: #999;
+    }
+
+    input {
+      width: 100%;
+      background: #050505;
+      border: 1px solid #333;
+      color: white;
+      padding: 15px;
+      margin: 10px 0;
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #d8ff3e;
+    }
+
+    button {
+      background: #d8ff3e;
+      color: #050505;
+      border: none;
+      padding: 14px 22px;
+      margin-top: 15px;
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .error {
+      color: #ff6262;
+      min-height: 25px;
+    }
+
+    .terminal {
+      min-height: 340px;
+      white-space: pre-wrap;
+      line-height: 1.9;
+      color: #d6d6d6;
+    }
+
+    .question {
+      padding: 18px 0;
+      border-top: 1px solid #292929;
+    }
+
+    .choice {
+      display: block;
+      width: 100%;
+      text-align: left;
+      color: white;
+      background: #101010;
+      border: 1px solid #292929;
+      margin: 8px 0;
+    }
+
+    .choice.selected {
+      color: #d8ff3e;
+      border-color: #d8ff3e;
+    }
+
+    .philosophy {
+      font-family: Arial, sans-serif;
+      font-size: 25px;
+      line-height: 1.8;
+      margin-top: 45px;
+    }
+
+    .success {
+      color: #d8ff3e;
+      font-family: Arial, sans-serif;
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    .gift {
+      margin-top: 35px;
+      border: 1px dashed #d8ff3e;
+      padding: 25px;
+    }
+
+    .gift strong {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 35px;
+      margin: 15px 0;
+    }
+
+    @media (max-width: 600px) {
+      .screen {
+        padding: 25px 18px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .success {
+        font-size: 35px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <main class="app">
+<div class="app">
 
-    <header class="topbar">
-      <span>BUZYA_27</span>
-      <span id="status">OFFLINE</span>
-    </header>
+  <div class="top">
+    <span class="logo">BUZYA_27</span>
+    <span id="status">OFFLINE</span>
+  </div>
 
-    <section id="screen-lock" class="screen active">
+  <section id="login" class="screen active">
+    <div class="green">PRIVATE BUILD // ACCESS REQUIRED</div>
 
-      <div class="eyebrow">
-        PRIVATE REPOSITORY // PERSONAL BUILD
-      </div>
+    <h1>Access required.</h1>
 
-      <h1>Access required.</h1>
+    <p>Этот проект создан специально для одного backend-разработчика.</p>
 
-      <p class="lead">
-        Этот проект создан специально для одного backend-разработчика.
+    <p class="small">
+      This project was created for one backend developer only.
+    </p>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Введите код доступа"
+    >
+
+    <button onclick="login()">UNLOCK</button>
+
+    <p class="small">
+      Подсказка: твоё прозвище + возраст, без пробела.
+    </p>
+
+    <p id="loginError" class="error"></p>
+  </section>
+
+  <section id="loading" class="screen">
+    <div class="green">BOOT SEQUENCE</div>
+
+    <pre id="terminal" class="terminal"></pre>
+
+    <button id="continueButton" style="display:none" onclick="showScreen('quiz')">
+      CONTINUE
+    </button>
+  </section>
+
+  <section id="quiz" class="screen">
+    <div class="green">LEVEL 01 // IDENTITY CHECK</div>
+
+    <h2>Докажи, что это действительно ты.</h2>
+
+    <div class="question">
+      <p>1. Твоё направление в разработке:</p>
+      <input id="answer1" placeholder="Ответ">
+    </div>
+
+    <div class="question">
+      <p>2. Как я тебя называю:</p>
+      <input id="answer2" placeholder="Ответ">
+    </div>
+
+    <div class="question">
+      <p>3. Твой новый уровень:</p>
+      <input id="answer3" placeholder="Ответ">
+    </div>
+
+    <button onclick="checkQuiz()">RUN CHECK</button>
+
+    <p id="quizError" class="error"></p>
+  </section>
+
+  <section id="debug" class="screen">
+    <div class="green">LEVEL 02 // DEBUG MODE</div>
+
+    <h2>Выбери правильные ответы.</h2>
+
+    <div class="question" id="question1">
+      <p>Что обычно говорит разработчик, когда что-то перестало работать?</p>
+
+      <button class="choice" onclick="selectChoice('question1', this, false)">
+        Я всё сломал.
+      </button>
+
+      <button class="choice" onclick="selectChoice('question1', this, true)">
+        У меня работало.
+      </button>
+
+      <button class="choice" onclick="selectChoice('question1', this, false)">
+        Это невозможно.
+      </button>
+    </div>
+
+    <div class="question" id="question2">
+      <p>Что важнее в этом проекте?</p>
+
+      <button class="choice" onclick="selectChoice('question2', this, false)">
+        Количество строк кода.
+      </button>
+
+      <button class="choice" onclick="selectChoice('question2', this, false)">
+        Архитектура.
+      </button>
+
+      <button class="choice" onclick="selectChoice('question2', this, true)">
+        Человек, ради которого он создан.
+      </button>
+    </div>
+
+    <button onclick="checkChoices()">COMMIT ANSWERS</button>
+
+    <p id="choiceError" class="error"></p>
+  </section>
+
+  <section id="message" class="screen">
+    <div class="green">PERSONAL MESSAGE</div>
+
+    <div class="philosophy">
+      Код можно переписать.<br>
+      Ошибки можно исправить.<br>
+      Некоторые проекты можно закрыть.<br><br>
+
+      Но есть люди, которые становятся частью твоей системы.
+    </div>
+
+    <button onclick="showScreen('letter')">CONTINUE</button>
+  </section>
+
+  <section id="letter" class="screen">
+    <div class="green">PRIVATE MESSAGE // FROM MAYA</div>
+
+    <h2>Бузя,</h2>
+
+    <p>
+      Я не умею обещать идеальную историю и не знаю,
+      что будет через десять, двадцать или тридцать лет.
+    </p>
+
+    <p>
+      И не хочу обещать то, чего никто не может обещать.
+    </p>
+
+    <p>
+      Но сейчас я точно знаю одно:
+      ты стал для меня одним из самых близких людей.
+    </p>
+
+    <p class="small">
+      I cannot promise a perfect story or predict the future.
+      But I know one thing for sure:
+      you have become one of the closest people in my life.
+    </p>
+
+    <button onclick="startSearch()">SEARCH FOR PACKAGE</button>
+  </section>
+
+  <section id="search" class="screen">
+    <div class="green">PACKAGE SEARCH</div>
+
+    <pre id="searchTerminal" class="terminal"></pre>
+  </section>
+
+  <section id="final" class="screen">
+    <div class="success">PACKAGE FOUND ✓</div>
+
+    <div class="gift">
+      <span class="green">FINAL TASK</span>
+
+      <strong>Проверь шкафчик.</strong>
+
+      <p>Твой подарок уже ждёт тебя там.</p>
+
+      <p class="small">
+        Check the locker. Your gift is waiting for you.
       </p>
-
-      <p class="lead muted">
-        This project was built for one backend developer only.
-      </p>
-
-      <div class="access-card">
-
-        <label for="accessCode">
-          ACCESS CODE
-        </label>
-
-        <div class="input-row">
-
-          <input
-            id="accessCode"
-            type="password"
-            placeholder="••••••••"
-          >
-
-          <button id="unlockBtn">
-            UNLOCK
-          </button>
-
-        </div>
-
-        <p class="tiny">
-          Подсказка: прозвище + возраст, без пробела.
-        </p>
-
-        <p id="lockError" class="error"></p>
-
-      </div>
-
-    </section>
-
-    <section id="screen-boot" class="screen">
-
-      <div class="eyebrow">
-        BOOT SEQUENCE
-      </div>
-
-      <pre id="bootLog" class="terminal"></pre>
-
-      <button id="continueBtn" class="hidden">
-        CONTINUE
-      </button>
-
-    </section>
-
-    <section id="screen-level1" class="screen">
-
-      <div class="eyebrow">
-        LEVEL 01 // IDENTITY CHECK
-      </div>
-
-      <h2>
-        Докажи, что это действительно ты.
-      </h2>
-
-      <div class="question">
-
-        <span>01</span>
-
-        <div>
-
-          <p>
-            Твоё направление в разработке.
-          </p>
-
-          <input
-            class="answer"
-            data-answer="BACKEND|БЭКЕНД|БЕКЕНД"
-            placeholder="answer"
-          >
-
-        </div>
-
-      </div>
-
-      <div class="question">
-
-        <span>02</span>
-
-        <div>
-
-          <p>
-            Как я тебя называю.
-          </p>
-
-          <input
-            class="answer"
-            data-answer="БУЗЯ|BUZYA"
-            placeholder="answer"
-          >
-
-        </div>
-
-      </div>
-
-      <div class="question">
-
-        <span>03</span>
-
-        <div>
-
-          <p>
-            Новый уровень твоей версии.
-          </p>
-
-          <input
-            class="answer"
-            data-answer="27"
-            placeholder="answer"
-          >
-
-        </div>
-
-      </div>
-
-      <button
-        class="next-btn"
-        data-check="screen-level1"
-        data-next="screen-level2"
-      >
-        RUN CHECK
-      </button>
-
-      <p class="message"></p>
-
-    </section>
-
-    <section id="screen-level2" class="screen">
-
-      <div class="eyebrow">
-        LEVEL 02 // DEBUG MODE
-      </div>
-
-      <h2>
-        Найди правильные ответы.
-      </h2>
-
-      <div class="choice-block" data-correct="b">
-
-        <p>
-          Что обычно говорит разработчик, когда что-то перестало работать?
-        </p>
-
-        <button data-choice="a">
-          Я всё сломал.
-        </button>
-
-        <button data-choice="b">
-          У меня работало.
-        </button>
-
-        <button data-choice="c">
-          Это магия.
-        </button>
-
-      </div>
-
-      <div class="choice-block" data-correct="c">
-
-        <p>
-          Что важнее в этом проекте?
-        </p>
-
-        <button data-choice="a">
-          Количество строк кода.
-        </button>
-
-        <button data-choice="b">
-          Архитектура.
-        </button>
-
-        <button data-choice="c">
-          То, ради кого он создан.
-        </button>
-
-      </div>
-
-      <button
-        class="next-btn"
-        data-choice-check="true"
-        data-next="screen-level3"
-      >
-        COMMIT ANSWERS
-      </button>
-
-      <p class="message"></p>
-
-    </section>
-
-    <section id="screen-level3" class="screen">
-
-      <div class="eyebrow">
-        LEVEL 03 // FINAL KEY
-      </div>
-
-      <h2>
-        Последняя команда.
-      </h2>
-
-      <p class="lead">
-        Введи команду, после которой всё начинается.
-      </p>
-
-      <div class="command-box">
-
-        <span>$</span>
-
-        <input
-          id="finalCommand"
-          placeholder="type command"
-        >
-
-      </div>
-
-      <button id="finalRunBtn">
-        RUN
-      </button>
-
-      <p id="finalError" class="message"></p>
-
-    </section>
-
-    <section id="screen-final" class="screen final-screen">
-
-      <div class="eyebrow">
-        BUILD COMPLETED
-      </div>
-
-      <div class="success-mark">
-        ACCESS GRANTED
-      </div>
-
-      <div class="final-copy">
-
-        <p>
-          Я не умею обещать идеальную историю
-          и не знаю, что будет через много лет.
-          Но я точно знаю одно:
-          ты стал для меня очень близким человеком.
-        </p>
-
-        <p class="muted">
-          I cannot promise a perfect story,
-          and I do not know what the future will look like.
-          But I know one thing for sure:
-          you have become one of the closest people in my life.
-        </p>
-
-      </div>
-
-      <div class="gift-panel">
-
-        <span>
-          FINAL TASK
-        </span>
-
-        <strong>
-          Проверь шкафчик.
-        </strong>
-
-        <p>
-          Твой подарок уже там.
-        </p>
-
-        <small>
-          Check the locker.
-          Your gift is waiting for you.
-        </small>
-
-      </div>
-
-      <div class="signature">
-
-        Happy 27, Бузя.
-
-        <br>
-
-        <span>
-          // From Maya
-        </span>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <script src="script.js"></script>
+    </div>
+
+    <p>
+      Happy 27, Бузя.
+    </p>
+
+    <p class="small">
+      // From Maya
+    </p>
+  </section>
+
+</div>
+
+<script>
+  const correctChoices = {
+    question1: false,
+    question2: false
+  };
+
+  function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    window.scrollTo(0, 0);
+  }
+
+  function login() {
+    const password = document
+      .getElementById("password")
+      .value
+      .trim()
+      .toUpperCase();
+
+    if (password === "BUZYA27") {
+      document.getElementById("status").textContent = "ONLINE";
+      showScreen("loading");
+      startLoading();
+    } else {
+      document.getElementById("loginError").textContent =
+        "ACCESS DENIED. Попробуй ещё раз.";
+    }
+  }
+
+  function startLoading() {
+    const lines = [
+      "> Initializing private build...",
+      "> Searching for backend developer...",
+      "✓ Backend developer detected",
+      "",
+      "> Name: Buzya",
+      "> Version: 27.0",
+      "",
+      "> Loading humor...",
+      "✓ Completed",
+      "",
+      "> Loading trust...",
+      "✓ Completed",
+      "",
+      "> Loading feelings...",
+      "✓ Completed",
+      "",
+      "SYSTEM READY."
+    ];
+
+    const terminal = document.getElementById("terminal");
+    const button = document.getElementById("continueButton");
+
+    terminal.textContent = "";
+    button.style.display = "none";
+
+    let index = 0;
+
+    const timer = setInterval(() => {
+      terminal.textContent += lines[index] + "\n";
+      index++;
+
+      if (index === lines.length) {
+        clearInterval(timer);
+        button.style.display = "inline-block";
+      }
+    }, 350);
+  }
+
+  function checkQuiz() {
+    const first = document
+      .getElementById("answer1")
+      .value
+      .trim()
+      .toUpperCase();
+
+    const second = document
+      .getElementById("answer2")
+      .value
+      .trim()
+      .toUpperCase();
+
+    const third = document
+      .getElementById("answer3")
+      .value
+      .trim();
+
+    const firstCorrect =
+      first === "BACKEND" ||
+      first === "БЭКЕНД" ||
+      first === "БЕКЕНД";
+
+    const secondCorrect =
+      second === "БУЗЯ" ||
+      second === "BUZYA";
+
+    if (firstCorrect && secondCorrect && third === "27") {
+      showScreen("debug");
+    } else {
+      document.getElementById("quizError").textContent =
+        "Некоторые ответы не прошли проверку.";
+    }
+  }
+
+  function selectChoice(question, button, correct) {
+    const block = document.getElementById(question);
+
+    block.querySelectorAll(".choice").forEach(item => {
+      item.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+    correctChoices[question] = correct;
+  }
+
+  function checkChoices() {
+    if (correctChoices.question1 && correctChoices.question2) {
+      showScreen("message");
+    } else {
+      document.getElementById("choiceError").textContent =
+        "Один из ответов неверный.";
+    }
+  }
+
+  function startSearch() {
+    showScreen("search");
+
+    const lines = [
+      "> Searching...",
+      "> Checking current location...",
+      "> Scanning available storage...",
+      "> Detecting surprise package...",
+      "",
+      "✓ PACKAGE DETECTED",
+      "✓ LOCATION FOUND"
+    ];
+
+    const terminal = document.getElementById("searchTerminal");
+    terminal.textContent = "";
+
+    let index = 0;
+
+    const timer = setInterval(() => {
+      terminal.textContent += lines[index] + "\n";
+      index++;
+
+      if (index === lines.length) {
+        clearInterval(timer);
+
+        setTimeout(() => {
+          document.getElementById("status").textContent = "COMPLETED";
+          showScreen("final");
+        }, 1000);
+      }
+    }, 550);
+  }
+</script>
 
 </body>
 </html>
